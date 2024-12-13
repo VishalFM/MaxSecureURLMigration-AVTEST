@@ -7,11 +7,11 @@ import requests
 # directory_path = "C:\\Users\\VISHAL\\OneDrive\\Desktop\\Flairminds\\Fable malware detection - Master\\Test Data"
 # vendor_name = "VishalBro"
 
-# directory_path = "$HOME/Files/MRGURLs-CSV"
-# vendor_name = "MRG"
+directory_path = "/home/ubuntu/Files/MRGURLs-CSV"
+vendor_name = "MRG"
 
-directory_path = "$HOME/Files/AvtestURL"
-vendor_name = "Avtest"
+# directory_path = "/home/ubuntu/Files/AvtestURL"
+# vendor_name = "Avtest"
 
 # Fixed values for VendorName and EntryStatus
 entry_status = 1
@@ -33,7 +33,7 @@ def read_csv_file(file_path):
                     "URL": row.get("URL", ""),
                     "VendorName": vendor_name,
                     "EntryStatus": entry_status,
-                    "Score": int(row.get("DETECTION_RATE", 0))
+                    "Score": float(row.get("DETECTION_RATE", 0.0))
                 }
                 records.append(record)
         return records
@@ -67,8 +67,8 @@ try:
                 continue
 
             # Batch data in groups of 1000
-            for i in range(0, len(records), 1000):
-                batch = records[i:i + 1000]
+            for i in range(0, len(records), 1500):
+                batch = records[i:i + 1500]
                 if not send_data_to_api(batch):
                     raise Exception("Failed to send data to API.")
 
