@@ -7,8 +7,8 @@ import requests
 directory_path = "C:\\Users\\VISHAL\\OneDrive\\Desktop\\Flairminds\\Fable malware detection - Master\\Test Data"
 vendor_name = "VishalBro"
 
-# directory_path = "/home/ubuntu/Files/MRGURLs-CSV"
-# vendor_name = "MRG"
+directory_path = "/home/ubuntu/Files/MRGURLs-CSV"
+vendor_name = "MRG"
 
 # directory_path = "/home/ubuntu/Files/AvtestURL"
 # vendor_name = "Avtest"
@@ -17,8 +17,8 @@ vendor_name = "VishalBro"
 entry_status = 1
 
 # API endpoint
-api_url = "http://localhost:5000/malicious_urls"
-# api_url = "http://172.30.5.125/malicious_urls"
+# api_url = "http://localhost:5000/malicious_urls"
+api_url = "http://172.30.5.125/malicious_urls"
 
 # Array to store failed file names
 failed_files = []
