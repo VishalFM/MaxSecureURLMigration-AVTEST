@@ -4,11 +4,11 @@ import json
 import requests
 
 # Directory containing the CSV files
-# directory_path = "C:\\Users\\VISHAL\\OneDrive\\Desktop\\Flairminds\\Fable malware detection - Master\\Test Data"
-# vendor_name = "VishalBro"
+directory_path = "C:\\Users\\VISHAL\\OneDrive\\Desktop\\Flairminds\\Fable malware detection - Master\\Test Data"
+vendor_name = "VishalBro"
 
-directory_path = "/home/ubuntu/Files/MRGURLs-CSV"
-vendor_name = "MRG"
+# directory_path = "/home/ubuntu/Files/MRGURLs-CSV"
+# vendor_name = "MRG"
 
 # directory_path = "/home/ubuntu/Files/AvtestURL"
 # vendor_name = "Avtest"
@@ -17,8 +17,8 @@ vendor_name = "MRG"
 entry_status = 1
 
 # API endpoint
-# api_url = "http://localhost:5000/malicious_urls"
-api_url = "http://172.30.5.125/malicious_urls"
+api_url = "http://localhost:5000/malicious_urls"
+# api_url = "http://172.30.5.125/malicious_urls"
 
 # Array to store failed file names
 failed_files = []
@@ -65,7 +65,8 @@ try:
             if records is None:
                 failed_files.append(file_name)
                 continue
-
+            
+            print(f"File - {file_name} contains {len(records)} records.")
             # Batch data in groups of 1000
             for i in range(0, len(records), 1500):
                 batch = records[i:i + 1500]
