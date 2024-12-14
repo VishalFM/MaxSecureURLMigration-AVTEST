@@ -4,8 +4,8 @@ import json
 import requests
 
 # Directory containing the CSV files
-directory_path = "C:\\Users\\VISHAL\\OneDrive\\Desktop\\Flairminds\\Fable malware detection - Master\\Test Data"
-vendor_name = "VishalBro"
+# directory_path = "C:\\Users\\VISHAL\\OneDrive\\Desktop\\Flairminds\\Fable malware detection - Master\\Test Data"
+# vendor_name = "VishalBro"
 
 directory_path = "/home/ubuntu/Files/MRGURLs-CSV"
 vendor_name = "MRG"
@@ -27,20 +27,41 @@ def read_csv_file(file_path):
     try:
         records = []
         with open(file_path, mode='r', newline='', encoding='utf-8') as file:
-            csv_reader = csv.DictReader(file)
-            for row in csv_reader:
-                record = {
-                    "URL": row.get("URL", ""),
-                    "VendorName": vendor_name,
-                    "EntryStatus": entry_status,
-                    "Score": float(row.get("DETECTION_RATE", 0.0))
-                }
-                records.append(record)
+            # Check if the file has a header by reading the first line
+            first_line = file.readline().strip()
+            has_header = "," in first_line  # Simple check to see if it's a structured CSV
+            
+            # Reset file pointer to the beginning
+            file.seek(0)
+
+            if has_header:
+                # File has a header; use csv.DictReader
+                csv_reader = csv.DictReader(file)
+                for row in csv_reader:
+                    record = {
+                        "URL": row.get("URL", ""),
+                        "VendorName": vendor_name,
+                        "EntryStatus": entry_status,
+                        "Score": float(row.get("DETECTION_RATE", 0.0))
+                    }
+                    records.append(record)
+            else:
+                # File does not have a header; treat each line as a URL
+                csv_reader = csv.reader(file)
+                for row in csv_reader:
+                    if row:  # Skip empty rows
+                        record = {
+                            "URL": row[0].strip(),  # Only column is the URL
+                            "VendorName": vendor_name,
+                            "EntryStatus": entry_status,
+                            "Score": 0.0  # Default score for single-column files
+                        }
+                        records.append(record)
         return records
     except Exception as e:
         print(f"Error reading file {file_path}: {e}")
         return None
-
+    
 def send_data_to_api(data):
     try:
         headers = {"Content-Type": "application/json"}
